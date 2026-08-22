@@ -1,4 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import '../app_config.dart';
 
 /// 应用设置（SharedPreferences 持久化）。所有用户可调项统一定义在这里。
 class AppSettings {
@@ -26,13 +27,16 @@ class AppSettings {
 
   static const int defaultFeedLimit = 8;
   static const bool defaultShowSummary = true;
-  static const List<String> defaultTabs = ['全部', '科技', '时政', 'AI', '开源'];
+  static const List<String> defaultTabs = ['全部', '科技', '开发者', '数码', '时政', 'AI', '开源'];
+  // 时政默认隐藏（公开版）；个人版默认全部显示
+  static const List<String> defaultHiddenTabs =
+      AppConfig.isPersonal ? <String>[] : ['时政'];
 
   /// 载入分类顺序（过滤掉隐藏项）。
   static Future<List<String>> loadTabs() async {
     final p = await SharedPreferences.getInstance();
     final order = p.getStringList(kTabsOrder) ?? defaultTabs;
-    final hidden = p.getStringList(kTabsHidden) ?? const [];
+    final hidden = p.getStringList(kTabsHidden) ?? defaultHiddenTabs;
     return order.where((t) => !hidden.contains(t)).toList();
   }
 
@@ -50,7 +54,8 @@ class AppSettings {
       'showSummary': p.getBool(kShowSummary) ?? defaultShowSummary,
       'srcIthome': p.getBool(kSrcIthome) ?? true,
       'srcSspai': p.getBool(kSrcSspai) ?? true,
-      'srcPeople': p.getBool(kSrcPeople) ?? true,
+      // 人民网时政源：公开版默认关闭，个人版默认开启
+      'srcPeople': p.getBool(kSrcPeople) ?? (AppConfig.isPersonal ? true : false),
       'density': p.getString(kDensity) ?? 'cozy',
       'timeMode': p.getString(kTimeMode) ?? 'relative',
       'openLinkMode': p.getString(kOpenLinkMode) ?? 'browser',
