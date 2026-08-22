@@ -53,6 +53,8 @@ class FeedService {
   static const List<_FeedSource> _sources = [
     _FeedSource('IT之家', 'https://www.ithome.com/rss/', '科技'),
     _FeedSource('少数派', 'https://sspai.com/feed', '科技'),
+    _FeedSource('掘金', 'https://juejin.cn/rss', '开发者'),
+    _FeedSource('极客公园', 'https://www.geekpark.net/rss', '数码'),
     _FeedSource('人民网时政', 'https://www.people.com.cn/rss/politics.xml', '时政'),
   ];
 
