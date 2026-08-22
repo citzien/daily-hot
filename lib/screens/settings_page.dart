@@ -36,7 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _showSummary = true;
   bool _srcIthome = true;
   bool _srcSspai = true;
-  bool _srcPeople = true;
+  bool _srcPeople = false; // 人民网时政默认关闭
   String _density = 'cozy';
   String _timeMode = 'relative';
   String _openLinkMode = 'browser';
@@ -58,7 +58,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final p = await SharedPreferences.getInstance();
     final s = await AppSettings.load();
     final order = p.getStringList(AppSettings.kTabsOrder);
-    final hidden = p.getStringList(AppSettings.kTabsHidden) ?? const <String>[];
+    final hidden =
+        p.getStringList(AppSettings.kTabsHidden) ?? AppSettings.defaultHiddenTabs;
     final cacheBytes = await FeedService.cacheSize();
     if (!mounted) return;
     setState(() {
