@@ -35,11 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isLoading = true;
 
   List<HotItem> _techItems = [];
+  List<HotItem> _devItems = [];
+  List<HotItem> _gadgetItems = [];
   List<HotItem> _politicsItems = [];
   List<GithubProject> _githubItems = [];
   List<AiNews> _aiItems = [];
 
-  List<String> _tabs = const ['全部', '科技', '时政', 'AI', '开源'];
+  List<String> _tabs = const ['全部', '科技', '开发者', '数码', 'AI', '开源'];
   String _density = 'cozy';
   String _timeMode = 'relative';
   String _openLinkMode = 'browser';
@@ -82,28 +84,42 @@ class _HomeScreenState extends State<HomeScreen> {
       // 科技/时政：内置 RSS 内容提取（IT之家/少数派/人民网）
       final feeds = await FeedService().fetch(disabledSources: disabledSources, force: force);
       final tech = <HotItem>[];
+      final dev = <HotItem>[];
+      final gadget = <HotItem>[];
       final politics = <HotItem>[];
-      var ti = 0;
-      var pi = 0;
+      var ti = 0, di = 0, gi = 0, pi = 0;
       for (final f in feeds) {
-        if (f.category == '科技') {
-          tech.add(HotItem(
-            rank: ++ti,
-            title: f.title,
-            category: '科技',
-            desc: (showSummary && f.summary.isNotEmpty) ? f.summary : null,
-            url: f.url,
-            pubDate: f.pubDate,
-          ));
+        String cat;
+        int rank;
+        if (f.category == '开发者') {
+          cat = '开发者';
+          rank = ++di;
+        } else if (f.category == '数码') {
+          cat = '数码';
+          rank = ++gi;
+        } else if (f.category == '时政') {
+          cat = '时政';
+          rank = ++pi;
         } else {
-          politics.add(HotItem(
-            rank: ++pi,
-            title: f.title,
-            category: '时政',
-            desc: (showSummary && f.summary.isNotEmpty) ? f.summary : null,
-            url: f.url,
-            pubDate: f.pubDate,
-          ));
+          cat = '科技';
+          rank = ++ti;
+        }
+        final item = HotItem(
+          rank: rank,
+          title: f.title,
+          category: cat,
+          desc: (showSummary && f.summary.isNotEmpty) ? f.summary : null,
+          url: f.url,
+          pubDate: f.pubDate,
+        );
+        if (cat == '开发者') {
+          dev.add(item);
+        } else if (cat == '数码') {
+          gadget.add(item);
+        } else if (cat == '时政') {
+          politics.add(item);
+        } else {
+          tech.add(item);
         }
       }
 
@@ -135,6 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
       setState(() {
         _techItems = tech.take(feedLimit).toList();
+        _devItems = dev.take(feedLimit).toList();
+        _gadgetItems = gadget.take(feedLimit).toList();
         _politicsItems = politics.take(feedLimit).toList();
         _githubItems = github;
         _aiItems = ai;
@@ -253,6 +271,10 @@ class _HomeScreenState extends State<HomeScreen> {
     List<Widget> cards;
     if (tab == '科技') {
       cards = [_buildHotCard('科技热点', Icons.memory_outlined, _techItems)];
+    } else if (tab == '开发者') {
+      cards = [_buildHotCard('开发者', Icons.terminal, _devItems)];
+    } else if (tab == '数码') {
+      cards = [_buildHotCard('数码', Icons.phone_android_outlined, _gadgetItems)];
     } else if (tab == '时政') {
       cards = [_buildHotCard('时政热点', Icons.account_balance_outlined, _politicsItems)];
     } else if (tab == 'AI') {
@@ -262,6 +284,8 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       cards = [
         _buildHotCard('科技热点', Icons.memory_outlined, _techItems),
+        _buildHotCard('开发者', Icons.terminal, _devItems),
+        _buildHotCard('数码', Icons.phone_android_outlined, _gadgetItems),
         _buildHotCard('时政热点', Icons.account_balance_outlined, _politicsItems),
         _buildAiCard(),
         _buildGithubCard(),
