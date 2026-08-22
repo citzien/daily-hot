@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFA54F"/>
+      <stop offset="1" stop-color="#F04E23"/>
+    </linearGradient>
+  </defs>
+  <!-- 圆角渐变底（原创设计：早间时钟 + 热点脉冲） -->
+  <rect x="12" y="12" width="488" height="488" rx="112" fill="url(#bg)"/>
+  <!-- 白色表盘 -->
+  <circle cx="256" cy="218" r="118" fill="#FFFFFF"/>
+  <!-- 12/3/6/9 刻度 -->
+  <rect x="250" y="106" width="12" height="26" rx="6" fill="#F04E23"/>
+  <rect x="372" y="212" width="26" height="12" rx="6" fill="#F04E23"/>
+  <rect x="250" y="304" width="12" height="26" rx="6" fill="#F04E23"/>
+  <rect x="128" y="212" width="26" height="12" rx="6" fill="#F04E23"/>
+  <!-- 分针：指向 12（上方），早上 7:30 的 30 分 -->
+  <rect x="250" y="140" width="12" height="78" rx="6" fill="#F04E23"/>
+  <!-- 时针：指向 7~8 之间（左下 225 度） -->
+  <rect x="250" y="140" width="12" height="66" rx="6" fill="#3A2C26" transform="rotate(225 256 218)"/>
+  <!-- 表盘中心 -->
+  <circle cx="256" cy="218" r="16" fill="#F04E23"/>
+  <!-- 下方三条热点脉冲波纹 -->
+  <path d="M178 402 q 20 -14 40 0" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <path d="M218 430 q 20 -14 40 0" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.85"/>
+  <path d="M258 458 q 20 -14 40 0" stroke="#FFFFFF" stroke-width="14" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>
