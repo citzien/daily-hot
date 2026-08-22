@@ -1,0 +1,37 @@
+# 今日热点 App
+name: daily_hot
+description: 每日热点聚合 - 科技/时政/AI/开源
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  http: ^1.2.0
+  xml: ^6.5.0
+  shared_preferences: ^2.2.2
+  url_launcher: ^6.3.0
+  webview_flutter: ^4.8.0
+  timeago: ^3.6.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+
+# 应用图标（原创设计，assets/icon/icon.png）
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#F04E23"
+  adaptive_icon_foreground: "assets/icon/icon.png"
+  min_sdk_android: 21
